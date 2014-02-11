@@ -1,7 +1,0 @@
-import ConfigParser
-
-def load_config_file():
-    p = ConfigParser.ConfigParser()
-    
-
-DEFAULT_SETTINGS = ""
