@@ -6,28 +6,12 @@ import argparse
 import os
 import ConfigParser
 import sys
+from tougou.exceptions import *
 
 __author__ = "Gonzalo Martinez"
 __copyright__ = "Deploshark"
 
 
-class PluginImportError(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
-
-class PluginNotExists(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
-
-class PluginConfigError(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
 
 def load_config_file():
     p = ConfigParser.ConfigParser()
@@ -60,7 +44,7 @@ def load_config_monitoring(p, monitoring_tool):
         import importlib
         module = importlib.import_module('tougou.monitorings')
         klass = getattr(module, monitoring_tool.capitalize())
-    except ImportError, AttributeError:
+    except ImportError:
         raise PluginImportError('Not Exists module for %s' % monitoring_tool.upper())
     try:
         usr = p.get('monitoring', '%s_USER' % monitoring_tool)
@@ -86,6 +70,8 @@ class Cli(object):
 
 def main():
     action = get_action(sys.argv, VALID_MONITORINGS)
+    if not action:
+        raise PluginNotExists('El plugin que queres usar una existe')
     build_option_parser(action)
     #if action:
     #    action_commands = load_config_monitoring(p, action)

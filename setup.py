@@ -12,5 +12,5 @@ setup(
     url='http://pypi.python.org/pypi/Tougou/',
     license='LICENSE.txt',
     description='Herramienta de integración de monitoreos',
-    long_description=open('README.txt').read(),
+    long_description=open('README.md').read(),
 )

@@ -18,8 +18,12 @@ class MonitoringPlugin(object):
         parser.add_argument('method_name')
         args = parser.parse_args()
         if args.method_name:
-            f = getattr(self, args.method_name)
-            print f()
+            if args.method_name in self.available_commands():
+                f = getattr(self, args.method_name)
+                print f()
+            else:
+                for cmd in self.available_commands():
+                    print "%s %s" % (self.__class__.__name__.lower(), cmd)
 
 class Nagios(MonitoringPlugin):
     def __init__(self, user, pwd, url_nagios):
