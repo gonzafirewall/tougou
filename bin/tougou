@@ -29,6 +29,10 @@ def load_config_file():
     return p
 
 def get_action(args, valids):
+    if len(args) == 1:
+        for valid in valids:
+            print '{} {}'.format('tougou', valid)
+        return 'Ninguno'
     for i in range(0,len(args)):
         arg = args[i]
         if arg in valids:
@@ -70,8 +74,10 @@ class Cli(object):
 
 def main():
     action = get_action(sys.argv, VALID_MONITORINGS)
+    if action == 'Ninguno':
+        return
     if not action:
-        raise PluginNotExists('El plugin que queres usar una existe')
+        raise PluginNotExists('El plugin que queres usar una existe o no has elegido ninguno')
     build_option_parser(action)
     #if action:
     #    action_commands = load_config_monitoring(p, action)

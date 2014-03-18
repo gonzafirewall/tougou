@@ -2,6 +2,7 @@ from urlparse import urljoin
 from HTMLParser import HTMLParser
 import requests
 from BeautifulSoup import BeautifulSoup
+import pprint
 import inspect
 
 class MonitoringPlugin(object):
@@ -20,7 +21,8 @@ class MonitoringPlugin(object):
         if args.method_name:
             if args.method_name in self.available_commands():
                 f = getattr(self, args.method_name)
-                print f()
+                pp = pprint.PrettyPrinter(indent=4)
+                pp.pprint(f())
             else:
                 for cmd in self.available_commands():
                     print "%s %s" % (self.__class__.__name__.lower(), cmd)
